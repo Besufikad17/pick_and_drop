@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
+// custom widgets
 import 'package:pickanddrop/components/button.dart';
 import 'package:pickanddrop/components/text.dart';
+import 'date.dart';
 
+// utilities
 import 'utils/util.dart';
 
 void main() {
@@ -15,7 +19,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pick/Drop',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: getColorFromHex("#165214")),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: getColorFromHex("#165214")),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Pick/Drop'),
@@ -36,6 +41,22 @@ class _MyHomePageState extends State<MyHomePage> {
   String drop_date = "Drop Date";
   String drop_location = "Drop Location";
 
+  void pickDate(date, flag) {
+    if(flag == "pick"){
+      pick_date = date;
+    }else {
+      drop_date = date;
+    }
+  }
+
+  void pickLocation(location, flag) {
+    if(flag == "pick"){
+      pick_location = location;
+    }else {
+      drop_location = location;
+    }
+  }
+
   void done() {
 
   }
@@ -44,8 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: getColorFromHex("#165214"),
+        title: MyText(
+          text: widget.title,
+          bgcolor: "#165214",
+          fgcolor: "#FFFFFF",
+          borderRadius: 0,
+          size: 18,
+          isBold: true,
+        ),
         centerTitle: true,
       ),
       backgroundColor: getColorFromHex("#FFFFFF"),
@@ -53,128 +81,175 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 50),
-            MyText(text: "PickUp Information", size: 20, bgcolor: "#FFFFFF", borderRadius: 0),
+            MyText(
+                text: "PickUp Information",
+                size: 20,
+                bgcolor: "#FFFFFF",
+                borderRadius: 0),
             const SizedBox(height: 20),
-            Container( 
-              width: 250,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5)
-              ),
-              child: Card(
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Date(flag: "pick" ,onPressed: (date, flag) => pickDate(date, flag),)),
+                )
+              },
+              child: Container(
+                  width: 250,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: getColorFromHex("#000000"),
+                      ),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      color: getColorFromHex("#FFFFFF"),
+                      child: Row(children: [
+                        MyText(
+                            text: pick_date,
+                            size: 12,
+                            bgcolor: "#FFFFFF",
+                            borderRadius: 0),
+                        const SizedBox(
+                          width: 135,
+                        ),
+                        Image.asset(
+                          "assets/images/icons8-date-50(1).png",
+                          height: 20,
+                          width: 20,
+                        )
+                      ]),
+                    ),
+                  )),
+            ),
+            const SizedBox(height: 20),
+            Container(
+                width: 250,
+                height: 50,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: getColorFromHex("#000000"),
                     ),
                     borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                   ),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  color: getColorFromHex("#FFFFFF"),
-                  child: Row(
-                    children: [
-                      MyText(text: pick_date, size: 12, bgcolor: "#FFFFFF", borderRadius: 0),
-                      const SizedBox(width: 135,),
-                      Image.asset("assets/images/icons8-date-50(1).png", height: 20, width: 20,)
-                    ]
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    color: getColorFromHex("#FFFFFF"),
+                    child: Row(children: [
+                      MyText(
+                          text: pick_location,
+                          size: 12,
+                          bgcolor: "#FFFFFF",
+                          borderRadius: 0),
+                      const SizedBox(
+                        width: 112,
+                      ),
+                      Image.asset(
+                        "assets/images/icons8-location-50(1).png",
+                        height: 20,
+                        width: 20,
+                      )
+                    ]),
                   ),
-                ),
-              )
+                )),
+            const SizedBox(height: 50),
+            MyText(
+                text: "Drop Information",
+                size: 20,
+                bgcolor: "#FFFFFF",
+                borderRadius: 0),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Date(flag: "drop",onPressed: (date, flag) => pickDate(date, flag),)),
+                )
+              },
+              child: Container(
+                  width: 250,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: getColorFromHex("#000000"),
+                      ),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      color: getColorFromHex("#FFFFFF"),
+                      child: Row(children: [
+                        MyText(
+                            text: drop_date,
+                            size: 12,
+                            bgcolor: "#FFFFFF",
+                            borderRadius: 0),
+                        const SizedBox(
+                          width: 135,
+                        ),
+                        Image.asset(
+                          "assets/images/icons8-date-50(1).png",
+                          height: 20,
+                          width: 20,
+                        )
+                      ]),
+                    ),
+                  )),
             ),
             const SizedBox(height: 20),
-            Container( 
-              width: 250,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5)
-              ),
-              child: Card(
+            Container(
+                width: 250,
+                height: 50,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: getColorFromHex("#000000"),
                     ),
                     borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                   ),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  color: getColorFromHex("#FFFFFF"),
-                  child: Row(
-                    children: [
-                      MyText(text: pick_location, size: 12, bgcolor: "#FFFFFF", borderRadius: 0),
-                      const SizedBox(width: 112,),
-                      Image.asset("assets/images/icons8-location-50(1).png", height: 20, width: 20,)
-                    ]
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    color: getColorFromHex("#FFFFFF"),
+                    child: Row(children: [
+                      MyText(
+                          text: drop_location,
+                          size: 12,
+                          bgcolor: "#FFFFFF",
+                          borderRadius: 0),
+                      const SizedBox(
+                        width: 112,
+                      ),
+                      Image.asset(
+                        "assets/images/icons8-location-50(1).png",
+                        height: 20,
+                        width: 20,
+                      )
+                    ]),
                   ),
-                ),
-              )
-            ),
-             const SizedBox(height: 50),
-            MyText(text: "Drop Information", size: 20, bgcolor: "#FFFFFF", borderRadius: 0),
-            const SizedBox(height: 20),
-            Container( 
-              width: 250,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5)
-              ),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: getColorFromHex("#000000"),
-                    ),
-                    borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                  ),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  color: getColorFromHex("#FFFFFF"),
-                  child: Row(
-                    children: [
-                      MyText(text: drop_date, size: 12, bgcolor: "#FFFFFF", borderRadius: 0),
-                      const SizedBox(width: 135,),
-                      Image.asset("assets/images/icons8-date-50(1).png", height: 20, width: 20,)
-                    ]
-                  ),
-                ),
-              )
-            ),
-            const SizedBox(height: 20),
-            Container( 
-              width: 250,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5)
-              ),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: getColorFromHex("#000000"),
-                    ),
-                    borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                  ),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  color: getColorFromHex("#FFFFFF"),
-                  child: Row(
-                    children: [
-                      MyText(text: drop_location, size: 12, bgcolor: "#FFFFFF", borderRadius: 0),
-                      const SizedBox(width: 112,),
-                      Image.asset("assets/images/icons8-location-50(1).png", height: 20, width: 20,)
-                    ]
-                  ),
-                ),
-              )
-            ),
+                )),
             const SizedBox(height: 30),
             MyButton(
-              text: "Done", 
-              bgcolor: "#165214", 
-              width: 250,
-              height: 50,
-              borderRadius: 5, 
-              fgcolor: "#ffffff", 
-              fontSize: 16, 
-              onPressed: done
-            )
+                text: "Done",
+                bgcolor: "#165214",
+                width: 250,
+                height: 50,
+                borderRadius: 5,
+                fgcolor: "#ffffff",
+                fontSize: 16,
+                onPressed: done)
           ],
         ),
       ),
