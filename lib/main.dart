@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 // custom widgets
 import 'package:pickanddrop/components/button.dart';
 import 'package:pickanddrop/components/text.dart';
+import 'package:pickanddrop/location.dart';
 import 'date.dart';
 
 // utilities
 import 'utils/util.dart';
+import 'models/place.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String pick_location = "Pick Location";
   String drop_date = "Drop Date";
   String drop_location = "Drop Location";
+  List<Place> places = [];
 
   void pickDate(date, flag) {
     if(flag == "pick"){
@@ -59,6 +62,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void done() {
 
+  }
+
+  Future fetchData() async {
+    setState(() async {
+      places = await fetchPlaces();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
   }
 
   @override
@@ -128,38 +143,53 @@ class _MyHomePageState extends State<MyHomePage> {
                   )),
             ),
             const SizedBox(height: 20),
-            Container(
-                width: 250,
-                height: 50,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: getColorFromHex("#000000"),
-                    ),
-                    borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    color: getColorFromHex("#FFFFFF"),
-                    child: Row(children: [
-                      MyText(
-                          text: pick_location,
-                          size: 12,
-                          bgcolor: "#FFFFFF",
-                          borderRadius: 0),
-                      const SizedBox(
-                        width: 112,
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      scrollable: true,
+                      backgroundColor: getColorFromHex("#ffffff"),
+                      title: Text("Pick Location"),
+                      content: Location(places: places,)
+                    );
+                  }
+                );
+              },
+              child: Container(
+                  width: 250,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: getColorFromHex("#000000"),
                       ),
-                      Image.asset(
-                        "assets/images/icons8-location-50(1).png",
-                        height: 20,
-                        width: 20,
-                      )
-                    ]),
-                  ),
-                )),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      color: getColorFromHex("#FFFFFF"),
+                      child: Row(children: [
+                        MyText(
+                            text: pick_location,
+                            size: 12,
+                            bgcolor: "#FFFFFF",
+                            borderRadius: 0),
+                        const SizedBox(
+                          width: 112,
+                        ),
+                        Image.asset(
+                          "assets/images/icons8-location-50(1).png",
+                          height: 20,
+                          width: 20,
+                        )
+                      ]),
+                    ),
+                  )),
+            ),
             const SizedBox(height: 50),
             MyText(
                 text: "Drop Information",
@@ -208,38 +238,53 @@ class _MyHomePageState extends State<MyHomePage> {
                   )),
             ),
             const SizedBox(height: 20),
-            Container(
-                width: 250,
-                height: 50,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: getColorFromHex("#000000"),
-                    ),
-                    borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    color: getColorFromHex("#FFFFFF"),
-                    child: Row(children: [
-                      MyText(
-                          text: drop_location,
-                          size: 12,
-                          bgcolor: "#FFFFFF",
-                          borderRadius: 0),
-                      const SizedBox(
-                        width: 112,
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      scrollable: true,
+                      backgroundColor: getColorFromHex("#ffffff"),
+                      title: Text("Pick Location"),
+                      content: Location(places: places,)
+                    );
+                  }
+                );
+              },
+              child: Container(
+                  width: 250,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: getColorFromHex("#000000"),
                       ),
-                      Image.asset(
-                        "assets/images/icons8-location-50(1).png",
-                        height: 20,
-                        width: 20,
-                      )
-                    ]),
-                  ),
-                )),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      color: getColorFromHex("#FFFFFF"),
+                      child: Row(children: [
+                        MyText(
+                            text: drop_location,
+                            size: 12,
+                            bgcolor: "#FFFFFF",
+                            borderRadius: 0),
+                        const SizedBox(
+                          width: 112,
+                        ),
+                        Image.asset(
+                          "assets/images/icons8-location-50(1).png",
+                          height: 20,
+                          width: 20,
+                        )
+                      ]),
+                    ),
+                  )),
+            ),
             const SizedBox(height: 30),
             MyButton(
                 text: "Done",
