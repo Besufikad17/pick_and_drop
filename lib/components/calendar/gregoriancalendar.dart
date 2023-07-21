@@ -19,8 +19,8 @@ class GC extends HookConsumerWidget {
     final current = useState(GregorianCalendar.now());
     GregorianCalendar gc = current.value;
     var current_days = gc.getMonth();
-    
-    var month_start_index = GregorianCalendar.gc_days.indexOf(current_days[0].day_name!);
+    var days = ["Monday", "Tuesday", "Wednsday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var month_start_index = days.indexOf(current_days[0].day_name!);
     var weeks = ((month_start_index + current_days.length) / 7).ceil();
     var date = "";
 
@@ -115,7 +115,7 @@ class GC extends HookConsumerWidget {
                         height: 40,
                         child: GridView.count(
                           crossAxisCount: 7,
-                          children: GregorianCalendar.gc_days
+                          children: days
                               .map(
                                 (e) => Center(
                                   child: Text(
@@ -210,6 +210,17 @@ class GC extends HookConsumerWidget {
                                                     fg = "#ffffff";
                                                     if(!isPassed){
                                                       date = "${e.day}-${e.month}-${e.year}";
+                                                    }else {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return const AlertDialog(
+                                                                scrollable: true,
+                                                                title: Text("Error"),
+                                                                content: Text("Please pick a valid date!!")
+                                                            );
+                                                          }
+                                                      );
                                                     }
                                                   },
                                                   child: Text(

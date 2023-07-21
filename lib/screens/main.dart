@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 // custom widgets
 import 'package:pickanddrop/components/button.dart';
 import 'package:pickanddrop/components/text.dart';
-import 'package:pickanddrop/location.dart';
+import 'package:pickanddrop/screens/checkout.dart';
+import 'location.dart';
 import 'date.dart';
 
 // utilities
-import 'utils/util.dart';
-import 'models/place.dart';
+import 'package:pickanddrop/utils/util.dart';
+import 'package:pickanddrop/models/place.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,23 +46,23 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Place> places = [];
 
   void pickDate(date, flag) {
-    if(flag == "pick"){
-      pick_date = date;
-    }else {
-      drop_date = date;
-    }
+    setState(() {
+      if(flag == "pick"){
+        pick_date = date;
+      }else {
+        drop_date = date;
+      }
+    });
   }
 
   void pickLocation(location, flag) {
-    if(flag == "pick"){
-      pick_location = location;
-    }else {
-      drop_location = location;
-    }
-  }
-
-  void done() {
-
+    setState(() {
+      if(flag == "pick"){
+        pick_location = location;
+      }else {
+        drop_location = location;
+      }
+    });
   }
 
   Future fetchData() async {
@@ -95,13 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 50),
-            MyText(
-                text: "PickUp Information",
-                size: 20,
-                bgcolor: "#FFFFFF",
-                borderRadius: 0),
             const SizedBox(height: 20),
+            Expanded(
+              child: MyText(
+                  text: "PickUp Information",
+                  size: 20,
+                  bgcolor: "#FFFFFF",
+                  borderRadius: 0),
+            ),
+            const SizedBox(height: 10),
             GestureDetector(
               onTap: () => {
                 Navigator.push(
@@ -122,16 +125,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                     ),
                     child: Container(
-                      padding: const EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(4),
                       color: getColorFromHex("#FFFFFF"),
                       child: Row(children: [
-                        MyText(
-                            text: pick_date,
-                            size: 12,
-                            bgcolor: "#FFFFFF",
-                            borderRadius: 0),
+                        Expanded(
+                          child: MyText(
+                              text: pick_date,
+                              size: 12,
+                              bgcolor: "#FFFFFF",
+                              borderRadius: 0),
+                        ),
                         const SizedBox(
-                          width: 135,
+                          width: 110,
                         ),
                         Image.asset(
                           "assets/images/icons8-date-50(1).png",
@@ -142,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   )),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                Navigator.push(
@@ -191,12 +196,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   )),
             ),
-            const SizedBox(height: 50),
-            MyText(
-                text: "Drop Information",
-                size: 20,
-                bgcolor: "#FFFFFF",
-                borderRadius: 0),
+            const SizedBox(height: 20),
+            Expanded(
+              child: MyText(
+                  text: "Drop Information",
+                  size: 20,
+                  bgcolor: "#FFFFFF",
+                  borderRadius: 0),
+            ),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () => {
@@ -221,13 +228,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(6),
                       color: getColorFromHex("#FFFFFF"),
                       child: Row(children: [
-                        MyText(
-                            text: drop_date,
-                            size: 12,
-                            bgcolor: "#FFFFFF",
-                            borderRadius: 0),
+                        Expanded(
+                          child: MyText(
+                              text: drop_date,
+                              size: 12,
+                              bgcolor: "#FFFFFF",
+                              borderRadius: 0),
+                        ),
                         const SizedBox(
-                          width: 135,
+                          width: 110,
                         ),
                         Image.asset(
                           "assets/images/icons8-date-50(1).png",
@@ -297,7 +306,43 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: 5,
                 fgcolor: "#ffffff",
                 fontSize: 16,
-                onPressed: done)
+                onPressed: () {
+                  if(pick_date == "Pick Date" || drop_date == "Drop Date"){
+                     showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const AlertDialog(
+                              scrollable: true,
+                              title: Text("Error"),
+                              content: Text("Please pick date!!")
+                          );
+                        }
+                     ); 
+                  }else if(pick_location == "Pick Location" || drop_location == "Drop Location"){
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const AlertDialog(
+                              scrollable: true,
+                              title: Text("Error"),
+                              content: Text("Please pick location!!")
+                          );
+                        }
+                     ); 
+                  }else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckOut(
+                          pick_date: pick_date,
+                          drop_date: drop_date,
+                          pick_location: pick_location,
+                          drop_location: drop_location,
+                        ),
+                      )
+                    );
+                  }
+                })
           ],
         ),
       ),

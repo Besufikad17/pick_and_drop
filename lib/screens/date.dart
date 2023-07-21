@@ -29,7 +29,7 @@ class Date extends StatelessWidget {
           centerTitle: true,
           bottom: const TabBar(
             tabs: [
-              Tab(text: "EC",),
+              Tab(text: "ኢአ",),
               Tab(text: "GC",),
             ],
           ),

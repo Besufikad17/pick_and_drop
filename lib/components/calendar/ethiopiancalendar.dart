@@ -210,6 +210,17 @@ class ETC extends HookConsumerWidget {
                                                     fg = "#ffffff";
                                                     if(!isPassed){
                                                       date = "${e.day}-${e.month}-${e.year}";
+                                                    }else {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext context) {
+                                                            return const AlertDialog(
+                                                                scrollable: true,
+                                                                title: Text("Error"),
+                                                                content: Text("Please pick a valid date!!")
+                                                            );
+                                                          }
+                                                      ); 
                                                     }
                                                   },
                                                   child: Text(

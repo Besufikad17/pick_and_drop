@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickanddrop/utils/util.dart';
-import 'models/place.dart';
+import 'package:pickanddrop/models/place.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -57,7 +57,7 @@ class Location extends HookConsumerWidget {
                       title: GestureDetector(
                         onTap: () {
                           onPressed(cities2[index], flag);
-
+                          Navigator.pop(context);
                         },
                         child: Text(cities2[index])
                       ),
