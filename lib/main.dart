@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pickanddrop/components/button.dart';
 import 'package:pickanddrop/components/text.dart';
 import 'package:pickanddrop/screens/checkout.dart';
-import 'location.dart';
-import 'date.dart';
+import 'screens/location.dart';
+import 'screens/date.dart';
 
 // utilities
 import 'package:pickanddrop/utils/util.dart';
