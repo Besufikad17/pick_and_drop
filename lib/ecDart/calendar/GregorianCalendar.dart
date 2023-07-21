@@ -80,4 +80,14 @@ class GregorianCalendar {
     return GregorianCalendar(
         year: this.year! - 1, month: this.month, day: this.day);
   }
+
+  List<GregorianCalendar> getMonth() {
+    List<GregorianCalendar> months = [];
+    int no_of_days = this.month == 2 ? 28 : 
+            this.month == 3 && this.month == 4 && this.month == 8 && this.month == 11 ? 30 : 31;
+    for(int i = 1; i < no_of_days + 1; i++){
+      months.add(GregorianCalendar(year: this.year, month: this.month, day: i));
+    }
+    return months;
+  }
 }

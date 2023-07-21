@@ -1,121 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:pickanddrop/utils/util.dart';
-import 'components/text.dart';
-import 'components/button.dart';
 import 'models/place.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Location extends StatelessWidget {
+class Location extends HookConsumerWidget {
+  TextEditingController search = TextEditingController();
   final List<Place> places;
+  final Function(String, String) onPressed;
+  final String flag;
 
-  Location({super.key, required this.places});
-
-  String dropdownValue = "Ethiopia";
-  late String dropdownValue2;
-  var items = ["Ethiopia", "Kenya", "Dijbouti", "Sudan"];
+  Location({super.key, required this.places, required this.onPressed, required this.flag});
 
   @override
-  Widget build(BuildContext context) {
-    var cities = getCity(places);
-    dropdownValue2 = cities.first;
-    print(cities);
-    return Center(
-        child: Column(
-      children: [
-        Container(
-            width: 350,
-            height: 50,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: getColorFromHex("#000000"),
-                ),
-                borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+  Widget build(BuildContext context, WidgetRef ref) {
+    var cities = useState(getCity(places));
+    List<String> cities2 = cities.value;
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Pick a Location")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: TextField(  
+              controller: search,  
+              decoration: const InputDecoration(  
+                border: OutlineInputBorder(),  
+                labelText: 'Place',  
+                hintText: 'Search place..',  
+              ), 
+              onChanged: (query) {
+                List<String> result = [];
+                if(query.isEmpty){
+                  cities.value = getCity(places);
+                }else {
+                  for(var place in cities2) {
+                    if(place.toLowerCase().contains(query.toLowerCase())){
+                      result.add(place);
+                    }
+                  }
+                  cities.value = result;
+                }
+              }, 
+            ),
+          ),  
+          Expanded(
+            child: cities2.isEmpty ? 
+              const Text("No data found :(")
+             : 
+              ListView.builder(
+                itemCount: cities2.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                      leading: const Icon(Icons.location_on),
+                      title: GestureDetector(
+                        onTap: () {
+                          onPressed(cities2[index], flag);
+
+                        },
+                        child: Text(cities2[index])
+                      ),
+                  );
+                }
               ),
-              child: Container(
-                color: getColorFromHex("#FFFFFF"),
-                child: Row(children: [
-                  MyText(
-                      text: "Country",
-                      size: 12,
-                      bgcolor: "#FFFFFF",
-                      borderRadius: 0),
-                  const SizedBox(
-                    width: 90,
-                  ),
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_downward_rounded),
-                    elevation: 16,
-                    onChanged: (String? value) {
-                      dropdownValue = value!;
-                    },
-                    items: items.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ]),
-              ),
-            )),
-        const SizedBox(
-          height: 20,
-        ),
-        Container(
-            width: 350,
-            height: 50,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-            child: Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: getColorFromHex("#000000"),
-                  ),
-                  borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                ),
-                child:  Container(
-                          color: getColorFromHex("#FFFFFF"),
-                          child: Row(children: [
-                            MyText(
-                                text: "City",
-                                size: 12,
-                                bgcolor: "#FFFFFF",
-                                borderRadius: 0),
-                            const SizedBox(
-                              width: 110,
-                            ),
-                            DropdownButton<String>(
-                              value: dropdownValue2,
-                              icon: const Icon(Icons.arrow_downward_rounded),
-                              elevation: 16,
-                              onChanged: (String? value) {
-                                dropdownValue = value!;
-                              },
-                              items: cities
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ]),
-                        ))),
-        const SizedBox(
-          height: 20,
-        ),
-        MyButton(
-            text: "Pick",
-            width: 250,
-            height: 50,
-            bgcolor: "#165214",
-            borderRadius: 5,
-            fgcolor: "#ffffff",
-            fontSize: 14,
-            onPressed: () {}),
-      ],
-    ));
+          ),
+        ]
+      ),
+    );
   }
 }

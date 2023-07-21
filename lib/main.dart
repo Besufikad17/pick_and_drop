@@ -145,17 +145,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      scrollable: true,
-                      backgroundColor: getColorFromHex("#ffffff"),
-                      title: Text("Pick Location"),
-                      content: Location(places: places,)
-                    );
-                  }
-                );
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Location(
+                      places: places, 
+                      onPressed: (location, flag) => pickLocation(location, flag),
+                      flag: "pick",
+                    )
+                  ),
+               );
               },
               child: Container(
                   width: 250,
@@ -173,11 +172,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(6),
                       color: getColorFromHex("#FFFFFF"),
                       child: Row(children: [
-                        MyText(
-                            text: pick_location,
-                            size: 12,
-                            bgcolor: "#FFFFFF",
-                            borderRadius: 0),
+                        Expanded(
+                          child: MyText(
+                              text: pick_location,
+                              size: 12,
+                              bgcolor: "#FFFFFF",
+                              borderRadius: 0),
+                        ),
                         const SizedBox(
                           width: 112,
                         ),
@@ -239,18 +240,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 20),
             GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      scrollable: true,
-                      backgroundColor: getColorFromHex("#ffffff"),
-                      title: Text("Pick Location"),
-                      content: Location(places: places,)
-                    );
-                  }
-                );
+               onTap: () {
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Location(
+                      places: places, 
+                      onPressed: (location, flag) => pickLocation(location, flag),
+                      flag: "drop",
+                    )
+                  ),
+               );
               },
               child: Container(
                   width: 250,
@@ -268,11 +268,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(6),
                       color: getColorFromHex("#FFFFFF"),
                       child: Row(children: [
-                        MyText(
-                            text: drop_location,
-                            size: 12,
-                            bgcolor: "#FFFFFF",
-                            borderRadius: 0),
+                        Expanded(
+                          child: MyText(
+                              text: drop_location,
+                              size: 12,
+                              bgcolor: "#FFFFFF",
+                              borderRadius: 0
+                          ),
+                        ),
                         const SizedBox(
                           width: 112,
                         ),

@@ -76,8 +76,8 @@ class EthiopianCalendar {
 
   List<EthiopianCalendar> getMonth() {
     List<EthiopianCalendar> ecs = [];
-
-    for (int i = 1; i < 31; i++) {
+    int no_of_day = this.month == 13 ? 5 : 30;
+    for (int i = 1; i < no_of_day + 1; i++) {
       ecs.add(EthiopianCalendar(year: this.year, month: this.month, day: i));
     }
     return ecs;

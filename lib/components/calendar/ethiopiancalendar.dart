@@ -30,10 +30,10 @@ class ETC extends HookConsumerWidget {
           slivers: [
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: AnimatedContainer(
-                  duration: Duration(microseconds: 500),
-                  padding: EdgeInsets.all(20),
+                  duration: const Duration(microseconds: 500),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
@@ -56,7 +56,7 @@ class ETC extends HookConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: IconButton(
-                              icon: Icon(Icons.chevron_left),
+                              icon: const Icon(Icons.chevron_left),
                               onPressed: () {
                                 current.value = ec.previousMonth();
                               },
@@ -98,7 +98,7 @@ class ETC extends HookConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: IconButton(
-                              icon: Icon(Icons.chevron_right),
+                              icon: const Icon(Icons.chevron_right),
                               onPressed: () {
                                 current.value = ec.nextMonth();
                               },
@@ -108,7 +108,7 @@ class ETC extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       SizedBox(
@@ -130,7 +130,7 @@ class ETC extends HookConsumerWidget {
                               .toList(),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       SizedBox(
@@ -142,7 +142,7 @@ class ETC extends HookConsumerWidget {
                             children: [
                               ...List.filled(month_start_index, 0)
                                   .map(
-                                    (e) => Center(
+                                    (e) => const Center(
                                       child: Text(''),
                                     ),
                                   )
@@ -252,10 +252,10 @@ class ETC extends HookConsumerWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: const SizedBox(height: 10,)),
+            const SliverToBoxAdapter(child:  SizedBox(height: 10,)),
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: MyButton(
                   text: "Pick", 
                   width: 250, 
