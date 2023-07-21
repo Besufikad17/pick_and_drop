@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickanddrop/components/text.dart';
 import 'package:pickanddrop/utils/util.dart';
 import 'package:pickanddrop/components/calendar/ethiopiancalendar.dart';
+import 'package:pickanddrop/components/calendar/gregoriancalendar.dart';
 
 class Date extends StatelessWidget {
   final Function(String, String) onPressed;
@@ -37,7 +38,7 @@ class Date extends StatelessWidget {
         body: TabBarView(
             children: [
               ETC(flag: flag, onPressed: (date, flag) => onPressed(date, flag),),
-              Text("GC")
+              GC(flag: flag, onPressed: (date, flag) => onPressed(date, flag),),
             ],
           ),
       )

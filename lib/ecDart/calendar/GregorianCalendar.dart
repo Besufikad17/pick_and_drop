@@ -1,7 +1,9 @@
 import 'EthiopianCalendar.dart';
 import '../utils/util.dart';
 
-const List<String> _months = [
+class GregorianCalendar {
+
+  static const List<String> _months = [
   "January",
   "Feburary",
   "March",
@@ -16,7 +18,7 @@ const List<String> _months = [
   "December"
 ];
 
-const List<String> gc_days = [
+static const List<String> gc_days = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -26,7 +28,6 @@ const List<String> gc_days = [
   "Saturday"
 ];
 
-class GregorianCalendar {
   int? year;
   int? month;
   int? day;
