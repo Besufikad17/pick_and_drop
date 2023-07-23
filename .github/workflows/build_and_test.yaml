@@ -25,3 +25,10 @@ jobs:
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Deploy APK to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        if: success()
+        with:
+          branch: gh-pages
+          folder: app/build/outputs/apk/debug/
+          token: ${{ secrets.GITHUB_TOKEN }}
